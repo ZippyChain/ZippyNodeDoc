@@ -101,7 +101,15 @@ Or you may use your own ip, once your node is synced with the blockchain.
 ./zpy-cli --node="http://<your ip>:19504" balances <ERC20 Address>
 ```
 
-## Step 6: Run node
+## Step 6: Create a Validator
+For you to create a Validator successfully, it needs to have 10000 ZPT tokens plus the necessary fees to create the validator transaction on chain. For this reason, we recommend that you send at least 10001 but no more than 20000 ZPT tokens to your –validator-addr before you continue.
+```
+./zpy-cli --node="http://64.62.166.166:9500" staking create-validator --validator-addr zpt1ue80tt700e6egxs4yvxmyrv4rp55qtxyn3hx7q --amount 10000 --bls-pubkeys 71e2191adb9e07d73743062b3c543dd3f95bcdc41b71cf31bf71dab1061a5927185e8f1ee76dd344e3e52de2ac652290 --name "<wallet name>" --identity "<wallet name>" --details "<wallet name>" --security-contact "<wallet name>" --website "<wallet name>" --max-change-rate 0.1 --max-rate 0.1 --rate 0.1 --max-total-delegation 100000000 --min-self-delegation 10000 --passphrase
+```
+Upon the hint, input the bls passphrase, then Enter wallet keystore passphrase.
+
+
+## Step 7: Run node
 This command run your own node. It's suggested you run it in a separate nohup session. We're using tmux in the example:
 ```
 tmux new -s zippysession
@@ -112,3 +120,71 @@ tmux new -s zippysession
 You may choose your own log_folder or db_dir, and remember to repleace the <public key>.key path in the above command from step 3.
 Once started, the node will take some time to sync with the blockchain. Click [HERE](https://testnet-scan.zippychain.ai/#/) to see the current height of the blockchain. Use the journalctl command to check on the node's progress.
 
+## Step 8: Check validator status
+You can use this command to check your validator’s status.
+```
+./zpy-cli blockchain validator information <Bech32 Address> --node="http://64.62.166.166:9500"
+```
+You may also use your own node:
+```
+./zpy-cli blockchain validator information <Bech32 Address> --node="http://<your ip>:19504" | grep active-status
+```
+Example output:
+```
+node is  http://<your ip>:19504  targetChain  
+chainName id is  2
+{
+  "id": "0",
+  "jsonrpc": "2.0",
+  "result": {
+    "active-status": "inactive",
+    "booted-status": "manually turned inactive or insufficient uptime",
+    "current-epoch-performance": null,
+    "currently-in-committee": false,
+    "epos-status": "not eligible to be elected next epoch",
+    "epos-winning-stake": null,
+    "lifetime": {
+      "apr": "0.000000000000000000",
+      "blocks": {
+        "signed": 21509,
+        "to-sign": 22400
+      },
+      "epoch-apr": [
+        {
+          "apr": "1470.897264474969283975",
+          "epoch": 57008
+        },
+        {
+```
+“active-status” means if you will take part in generating block processing.
+
+## Step 9: Activate Validator and waiting for Election
+If you want to join generaing block processing, you should enable your activation using the following command:
+```
+./zpy-cli --node="http://64.62.166.166:9500" staking edit-validator --active true --validator-addr <Bech32 Address> --passphrase
+```
+or use your own node:
+```
+./zpy-cli --node="http://<your node ip>:19504" staking edit-validator --active true --validator-addr <Bech32 Address> --passphrase
+```
+After running the command, checking Validator’s active-status again:
+```
+node is  http://64.62.166.171:19504  targetChain  
+chainName id is  2
+{
+  "id": "0",
+  "jsonrpc": "2.0",
+  "result": {
+    "active-status": "active",
+    "booted-status": "manually turned inactive or insufficient uptime",
+    "current-epoch-performance": null,
+    "currently-in-committee": false,
+    "epos-status": "eligible to be elected next epoch",
+    "epos-winning-stake": null,
+    "lifetime": {
+    ...
+```
+
+
+> [!NOTE]
+> The technical team advises that non-technical people should not participate in the validation process to avoid financial losses.
