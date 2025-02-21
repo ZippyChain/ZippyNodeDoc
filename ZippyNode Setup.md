@@ -113,12 +113,19 @@ Upon the hint, input the bls passphrase, then Enter wallet keystore passphrase.
 This command run your own node. It's suggested you run it in a separate nohup session. We're using tmux in the example:
 ```
 tmux new -s zippysession
-
-// then in zippysession screen:
+```
+Then in zippysession screen, start the node:
+```
 ./zippynode --log_folder ./stakenodetmp_log --min_peers 4 --bootnodes "/ip4/64.62.166.166/tcp/19876/p2p/QmdzLi9Mr3cHWnCBiz9hkK2VWVYvfpt5dDFEJUBWe5Tr4S" --network_type=localnet --verbosity=5 --p2p.security.max-conn-per-ip=200  --ip 0.0.0.0 --port 19004 --db_dir ./stakenodetestdb/ --broadcast_invalid_tx=false --http.ip=0.0.0.0 --ws.ip=0.0.0.0 --run.shard=0 --blskey_file ./<public key>.key
 ```
 You may choose your own log_folder or db_dir, and remember to repleace the <public key>.key path in the above command from step 3.
 Once started, the node will take some time to sync with the blockchain. Click [HERE](https://testnet-scan.zippychain.ai/#/) to see the current height of the blockchain. Use the journalctl command to check on the node's progress.
+
+To detach from tmux, and let program run in background, press `Ctrl + b`, then press `d`.
+To reattached to tmux session.
+```
+tmux attach -t zippysession
+```
 
 ## Step 8: Check validator status
 You can use this command to check your validator’s status.
