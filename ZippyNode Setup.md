@@ -104,7 +104,7 @@ Or you may use your own ip, once your node is synced with the blockchain.
 ## Step 6: Create a Validator
 For you to create a Validator successfully, it needs to have 10000 ZPT tokens plus the necessary fees to create the validator transaction on chain. For this reason, we recommend that you send at least 10001 but no more than 20000 ZPT tokens to your –validator-addr before you continue.
 ```
-./zpy-cli --node="http://64.62.166.166:9500" staking create-validator --validator-addr zpt1ue80tt700e6egxs4yvxmyrv4rp55qtxyn3hx7q --amount 10000 --bls-pubkeys 71e2191adb9e07d73743062b3c543dd3f95bcdc41b71cf31bf71dab1061a5927185e8f1ee76dd344e3e52de2ac652290 --name "<wallet name>" --identity "<wallet name>" --details "<wallet name>" --security-contact "<wallet name>" --website "<wallet name>" --max-change-rate 0.1 --max-rate 0.1 --rate 0.1 --max-total-delegation 100000000 --min-self-delegation 10000 --passphrase
+./zpy-cli --node="http://64.62.166.166:9500" staking create-validator --validator-addr <Bech32 address in Step 4> --amount 10000 --bls-pubkeys <bls-publickey in Step 3> --name "<wallet name>" --identity "<wallet name>" --details "<wallet name>" --security-contact "<wallet name>" --website "<wallet name>" --max-change-rate 0.1 --max-rate 0.1 --rate 0.1 --max-total-delegation 100000000 --min-self-delegation 10000 --passphrase
 ```
 Upon the hint, input the bls passphrase, then Enter wallet keystore passphrase.
 
